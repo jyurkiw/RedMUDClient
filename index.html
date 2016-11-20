@@ -1,0 +1,24 @@
+<html>
+
+<head>
+    <title>Red MUD Primitive Client</title>
+    <link rel="stylesheet" type="text/css" href="styles/primitive.css" />
+    <script src="/bower_components/angular/angular.js"></script>
+    <script src="/bower_components/socket.io-client/socket.io.js"></script>
+</head>
+
+<body>
+    <div ng-app="RedMudPrimitiveClient" ng-controller="RedMudPrimitiveController">
+        <h1>Red MUD Primitive Client</h1>
+        <div id="gameText">
+            <p ng-repeat="t in gameState.text track by $index">{{t}}</p>
+        </div>
+        <label id="gamePrompt" for="gameInput">[HP: 101/101 MP: 40/40]:</label>
+        <textarea name="gameInput" id="gameInput" rows="1" cols="80" ng-model="gameState.currentCommand"></textarea>
+        <button id="gameSendButton" ng-click="sendCommand();">Send</button>
+    </div>
+    <script src="/bower_components/socket.io-client/socket.io.js"></script>
+    <script src="/controllers/client.js"></script>
+</body>
+
+</html>

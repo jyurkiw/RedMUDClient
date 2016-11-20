@@ -1,0 +1,24 @@
+div#gameText {
+    height: 80%;
+    width: 90%;
+    padding-left: 1em;
+    padding-right: 1em;
+    padding-top: 1em;
+    padding-bottom: 1em;
+    margin-bottom: 1em;
+    border: 1px solid black;
+    border-radius: 15px;
+}
+
+label#gamePrompt {
+    float: left;
+}
+
+textarea#gameInput {
+    margin-left: 5px;
+    float: left;
+}
+
+button#gameSendButton {
+    margin-left: 5px;
+}
