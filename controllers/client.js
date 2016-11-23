@@ -1,6 +1,6 @@
-var app = angular.module('RedMudPrimitiveClient', []);
+var app = angular.module('RedMudPrimitiveClient', ['RedMudServices']);
 
-app.controller('RedMudPrimitiveController', function($scope, $http) {
+app.controller('RedMudPrimitiveController', function($scope, $http, MUDLogin, MUDVerify) {
     //$scope.gameState = GameState();
     //$scope.communicationHandler = ServerCommHandler($scope.gameState.addText);
 
@@ -8,7 +8,14 @@ app.controller('RedMudPrimitiveController', function($scope, $http) {
     $scope.gameState.currentCommand = "";
     $scope.gameState.text = [];
 
-    var socket = io("http://localhost:3000");
+    MUDVerify.on(function(success) { console.log('verify was ' + success); });
+
+    MUDLogin.login('testUser1', '12345')
+        .then(function(confirmationCode) {
+            MUDVerify.verify('testUser1', confirmationCode);
+        });
+
+    var socket = io("http://localhost:8080");
 
     function sendCommand() {
         new Promise(function(resolve, reject) {
@@ -40,4 +47,6 @@ app.controller('RedMudPrimitiveController', function($scope, $http) {
                 $scope.$apply();
             });
     });
+
+
 });
