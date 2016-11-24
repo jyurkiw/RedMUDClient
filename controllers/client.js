@@ -1,6 +1,6 @@
 var app = angular.module('RedMudPrimitiveClient', ['RedMudServices']);
 
-app.controller('RedMudPrimitiveController', function($scope, $http, MUDLogin, MUDVerify) {
+app.controller('RedMudPrimitiveController', function($scope, $http, MUDLogin, MUDCommand, MUDVerify) {
     //$scope.gameState = GameState();
     //$scope.communicationHandler = ServerCommHandler($scope.gameState.addText);
 
@@ -15,12 +15,11 @@ app.controller('RedMudPrimitiveController', function($scope, $http, MUDLogin, MU
             MUDVerify.verify('testUser1', confirmationCode);
         });
 
-    var socket = io("http://localhost:8080");
-
     function sendCommand() {
         new Promise(function(resolve, reject) {
                 try {
-                    socket.emit('chat message', $scope.gameState.currentCommand);
+                    MUDCommand.raw($scope.gameState.currentCommand);
+                    console.log('sent: ' + $scope.gameState.currentCommand);
                     resolve();
                 } catch (err) {
                     $scope.gameState.text.push(err);
@@ -33,7 +32,9 @@ app.controller('RedMudPrimitiveController', function($scope, $http, MUDLogin, MU
     }
     $scope.sendCommand = sendCommand;
 
-    socket.on('chat message', function(msg) {
+    socket.on('instant', function(msg) {
+        console.log('received instant message');
+        console.log(msg);
         new Promise(function(resolve, reject) {
                 try {
                     $scope.gameState.text.push(msg);
@@ -47,6 +48,5 @@ app.controller('RedMudPrimitiveController', function($scope, $http, MUDLogin, MU
                 $scope.$apply();
             });
     });
-
 
 });

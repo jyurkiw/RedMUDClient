@@ -1,7 +1,7 @@
 var RedMudServices = angular.module('RedMudServices', []);
+var socket = io.connect('http://localhost:8080');
 
 RedMudServices.factory('MUDVerify', [function() {
-    var socket = io.connect('http://localhost:8080');
     var verifyHandlers = [];
 
     socket.on('verify', function(success) {
@@ -27,7 +27,13 @@ RedMudServices.factory('MUDVerify', [function() {
 }]);
 
 RedMudServices.factory('MUDCommand', [function() {
+    function raw(command) {
+        socket.emit('command', command);
+    }
 
+    return {
+        raw: raw
+    };
 }]);
 
 RedMudServices.factory('MUDLogin', ['$http', function($http) {
